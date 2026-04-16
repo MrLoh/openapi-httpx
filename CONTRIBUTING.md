@@ -19,6 +19,9 @@ poetry lint
 
 # Format
 poetry format
+
+# Serve the docs site locally
+poetry docs
 ```
 
 ## Running Tests

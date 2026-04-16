@@ -4,6 +4,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/openapi-httpx)](https://pypi.org/project/openapi-httpx/)
 [![License](https://img.shields.io/pypi/l/openapi-httpx)](https://github.com/mrloh/openapi-httpx/blob/main/LICENSE)
 [![CI](https://github.com/mrloh/openapi-httpx/actions/workflows/ci.yml/badge.svg)](https://github.com/mrloh/openapi-httpx/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-online-526CFE?logo=materialformkdocs&logoColor=white)](https://mrloh.github.io/openapi-httpx/)
 
 Generate a typed [HTTPX](https://www.python-httpx.org) client from an OpenAPI specification. Provides an extremely thin wrapper around the HTTPX `Client` class that registers `overload`s for each operation and defines `TypedDict`s for parameters, request bodies and response bodies.
 

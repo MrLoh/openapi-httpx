@@ -19,10 +19,7 @@ classifiers = [
     "Topic :: Software Development :: Code Generators",
     "Typing :: Typed",
 ]
-dependencies = [
-    "datamodel-code-generator >=0.35.0,<0.54",
-    "pydantic >=2.0,<3",
-]
+dependencies = ["datamodel-code-generator >=0.35.0,<0.54", "pydantic >=2.0,<3"]
 
 [project.scripts]
 openapi-httpx = "openapi_httpx.__main__:main"
@@ -48,9 +45,11 @@ test = "pytest"
 typecheck = "pyright"
 format = "ruff format ."
 lint = "ruff check ."
+docs = "mkdocs serve"
 
 [dependency-groups]
 dev = ["pytest ~=8.3", "pyright ~=1.1.399", "ruff ~=0.6"]
+docs = ["mkdocs-material ~=9.7"]
 
 [tool.pytest.ini_options]
 addopts = "-ra -q"
