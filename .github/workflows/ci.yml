@@ -41,3 +41,15 @@ jobs:
 
       - name: 🧪 Test
         run: poetry test
+
+  ci-success:
+    name: CI Success
+    if: always()
+    needs: [check]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ "${{ needs.check.result }}" != "success" ]; then
+            echo "check job failed: ${{ needs.check.result }}"
+            exit 1
+          fi
