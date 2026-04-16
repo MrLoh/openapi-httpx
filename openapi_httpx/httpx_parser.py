@@ -21,7 +21,6 @@ try:
     from datamodel_code_generator.model import pydantic_v2 as pydantic_model
 except ImportError:
     from datamodel_code_generator.model import pydantic as pydantic_model  # type: ignore[no-redef]
-_pydantic_root_model: type[DataModel] = getattr(pydantic_model, "CustomRootType", None) or pydantic_model.RootModel  # type: ignore[assignment]
 from datamodel_code_generator.parser import DefaultPutDict
 from datamodel_code_generator.parser.base import Result
 from datamodel_code_generator.parser.openapi import (
@@ -34,6 +33,8 @@ from datamodel_code_generator.reference import snake_to_upper_camel
 from datamodel_code_generator.enums import StrictTypes
 from datamodel_code_generator.types import DataType, DataTypeManager
 from pydantic import BaseModel
+
+_pydantic_root_model: type[DataModel] = getattr(pydantic_model, "CustomRootType", None) or pydantic_model.RootModel  # type: ignore[assignment]
 
 HttpxRequestTypes = Literal["json", "data", "files", "content"]
 HttpxResponseTypes = Literal["json", "text", "content"]
@@ -363,7 +364,9 @@ class OpenAPIHttpxParser(OpenAPIParser):
                 response_type = (
                     "json"
                     if content_type == "application/json"
-                    else "text" if content_type.startswith("text") else "content"
+                    else "text"
+                    if content_type.startswith("text")
+                    else "content"
                 )
 
                 if self.collapse_root_models or self.collapse_response_models:
