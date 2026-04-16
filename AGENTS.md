@@ -27,7 +27,7 @@ The generated code must always `compile()` — `test_generated_code_compiles` en
 - Prefer inlining over helper functions — don't extract unless the same logic repeats three or more times
 - Don't add indirection (wrapper functions, intermediate variables, opts objects) without a concrete reason
 - Google style docstrings. Docstrings are for callers (behavior, args, returns), comments are for maintainers (why, trade-offs). Be sparse with both.
-- `datamodel-code-generator` is pinned `<0.54` — v0.54+ renamed `datamodel_code_generator.model.pydantic` to `pydantic_v2`, breaking the import in `httpx_parser.py` line 19. Widening requires adapting that import and retesting.
+- `datamodel-code-generator` is loosely pinned `<1.0`. The `pydantic` module at `datamodel_code_generator.model.pydantic` was removed in 0.55 in favor of `pydantic_v2`; `httpx_parser.py` imports the new module with a fallback to the old one to support both.
 
 ## Testing
 

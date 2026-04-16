@@ -16,7 +16,12 @@ from datamodel_code_generator.format import (
 )
 from datamodel_code_generator.imports import Import
 from datamodel_code_generator.model import DataModel, DataModelFieldBase
-from datamodel_code_generator.model import pydantic as pydantic_model
+
+try:
+    from datamodel_code_generator.model import pydantic_v2 as pydantic_model
+except ImportError:
+    from datamodel_code_generator.model import pydantic as pydantic_model  # type: ignore[no-redef]
+_pydantic_root_model: type[DataModel] = getattr(pydantic_model, "CustomRootType", None) or pydantic_model.RootModel  # type: ignore[assignment]
 from datamodel_code_generator.parser import DefaultPutDict
 from datamodel_code_generator.parser.base import Result
 from datamodel_code_generator.parser.openapi import (
@@ -69,7 +74,7 @@ class OpenAPIHttpxParser(OpenAPIParser):
         source: str | Path | list[Path] | ParseResult,
         *,
         data_model_type: type[DataModel] = pydantic_model.BaseModel,
-        data_model_root_type: type[DataModel] = pydantic_model.CustomRootType,
+        data_model_root_type: type[DataModel] = _pydantic_root_model,
         data_type_manager_type: type[DataTypeManager] = pydantic_model.DataTypeManager,
         data_model_field_type: type[DataModelFieldBase] = pydantic_model.DataModelField,
         base_class: str | None = None,
@@ -358,9 +363,7 @@ class OpenAPIHttpxParser(OpenAPIParser):
                 response_type = (
                     "json"
                     if content_type == "application/json"
-                    else "text"
-                    if content_type.startswith("text")
-                    else "content"
+                    else "text" if content_type.startswith("text") else "content"
                 )
 
                 if self.collapse_root_models or self.collapse_response_models:
