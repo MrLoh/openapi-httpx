@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Software Development :: Code Generators",
     "Typing :: Typed",
 ]
-dependencies = ["datamodel-code-generator >=0.35.0,<0.54", "pydantic >=2.0,<3"]
+dependencies = ["datamodel-code-generator >=0.35.0,<1.0", "pydantic >=2.0,<3"]
 
 [project.scripts]
 openapi-httpx = "openapi_httpx.__main__:main"

@@ -16,7 +16,11 @@ from datamodel_code_generator.format import (
 )
 from datamodel_code_generator.imports import Import
 from datamodel_code_generator.model import DataModel, DataModelFieldBase
-from datamodel_code_generator.model import pydantic as pydantic_model
+
+try:
+    from datamodel_code_generator.model import pydantic_v2 as pydantic_model
+except ImportError:
+    from datamodel_code_generator.model import pydantic as pydantic_model  # type: ignore[no-redef]
 from datamodel_code_generator.parser import DefaultPutDict
 from datamodel_code_generator.parser.base import Result
 from datamodel_code_generator.parser.openapi import (
@@ -29,6 +33,8 @@ from datamodel_code_generator.reference import snake_to_upper_camel
 from datamodel_code_generator.enums import StrictTypes
 from datamodel_code_generator.types import DataType, DataTypeManager
 from pydantic import BaseModel
+
+_pydantic_root_model: type[DataModel] = getattr(pydantic_model, "CustomRootType", None) or pydantic_model.RootModel  # type: ignore[assignment]
 
 HttpxRequestTypes = Literal["json", "data", "files", "content"]
 HttpxResponseTypes = Literal["json", "text", "content"]
@@ -69,7 +75,7 @@ class OpenAPIHttpxParser(OpenAPIParser):
         source: str | Path | list[Path] | ParseResult,
         *,
         data_model_type: type[DataModel] = pydantic_model.BaseModel,
-        data_model_root_type: type[DataModel] = pydantic_model.CustomRootType,
+        data_model_root_type: type[DataModel] = _pydantic_root_model,
         data_type_manager_type: type[DataTypeManager] = pydantic_model.DataTypeManager,
         data_model_field_type: type[DataModelFieldBase] = pydantic_model.DataModelField,
         base_class: str | None = None,
