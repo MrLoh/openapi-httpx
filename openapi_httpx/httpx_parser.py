@@ -26,7 +26,8 @@ from datamodel_code_generator.parser.openapi import (
     RequestBodyObject,
 )
 from datamodel_code_generator.reference import snake_to_upper_camel
-from datamodel_code_generator.types import DataType, DataTypeManager, StrictTypes
+from datamodel_code_generator.enums import StrictTypes
+from datamodel_code_generator.types import DataType, DataTypeManager
 from pydantic import BaseModel
 
 HttpxRequestTypes = Literal["json", "data", "files", "content"]

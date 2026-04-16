@@ -3,7 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from urllib.parse import ParseResult
 
-from datamodel_code_generator import DataModelType, LiteralType, PythonVersion
+from datamodel_code_generator import LiteralType, PythonVersion
+from datamodel_code_generator.enums import DataModelType
 from datamodel_code_generator.model import get_data_model_types
 from pydantic import BaseModel
 
