@@ -1,0 +1,227 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Petstore",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/pets": {
+      "get": {
+        "summary": "List pets",
+        "operationId": "list_pets",
+        "parameters": [
+          {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer"}},
+          {"name": "species", "in": "query", "required": false, "schema": {"$ref": "#/components/schemas/Species"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Pet"}}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a pet",
+        "operationId": "create_pet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {"schema": {"$ref": "#/components/schemas/CreatePetRequest"}}
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Pet"}}}
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}
+          }
+        }
+      }
+    },
+    "/pets/{pet_id}": {
+      "get": {
+        "summary": "Get a pet by ID",
+        "operationId": "get_pet",
+        "parameters": [
+          {"name": "pet_id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Pet"}}}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a pet",
+        "operationId": "update_pet",
+        "parameters": [
+          {"name": "pet_id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {"schema": {"$ref": "#/components/schemas/UpdatePetRequest"}}
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Pet"}}}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a pet",
+        "operationId": "delete_pet",
+        "parameters": [
+          {"name": "pet_id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "responses": {
+          "204": {"description": "No content"}
+        }
+      }
+    },
+    "/pets/{pet_id}/photo": {
+      "post": {
+        "summary": "Upload a pet photo",
+        "operationId": "upload_pet_photo",
+        "parameters": [
+          {"name": "pet_id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {"$ref": "#/components/schemas/PhotoUpload"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Pet"}}}
+          }
+        }
+      }
+    },
+    "/owners": {
+      "get": {
+        "summary": "List owners",
+        "operationId": "list_owners",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Owner"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/owners/{owner_id}": {
+      "get": {
+        "summary": "Get an owner by ID",
+        "operationId": "get_owner",
+        "parameters": [
+          {"name": "owner_id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Owner"}}}
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "health_check",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {"text/plain": {"schema": {"type": "string"}}}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Species": {
+        "type": "string",
+        "enum": ["dog", "cat", "bird", "fish"]
+      },
+      "Pet": {
+        "type": "object",
+        "required": ["id", "name", "species"],
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "name": {"type": "string"},
+          "species": {"$ref": "#/components/schemas/Species"},
+          "age": {"type": "integer", "nullable": true},
+          "owner_id": {"type": "string", "format": "uuid", "nullable": true},
+          "tags": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "CreatePetRequest": {
+        "type": "object",
+        "required": ["name", "species"],
+        "properties": {
+          "name": {"type": "string"},
+          "species": {"$ref": "#/components/schemas/Species"},
+          "age": {"type": "integer", "nullable": true},
+          "owner_id": {"type": "string", "format": "uuid", "nullable": true}
+        }
+      },
+      "UpdatePetRequest": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "age": {"type": "integer", "nullable": true},
+          "owner_id": {"type": "string", "format": "uuid", "nullable": true}
+        }
+      },
+      "Owner": {
+        "type": "object",
+        "required": ["id", "name", "email"],
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "name": {"type": "string"},
+          "email": {"type": "string", "format": "email"}
+        }
+      },
+      "PhotoUpload": {
+        "type": "object",
+        "required": ["photo", "caption"],
+        "properties": {
+          "photo": {"type": "string", "format": "binary"},
+          "caption": {"type": "string"}
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["message"],
+        "additionalProperties": false,
+        "properties": {
+          "message": {"type": "string"},
+          "code": {"type": "integer"}
+        }
+      }
+    }
+  }
+}

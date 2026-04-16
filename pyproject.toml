@@ -1,0 +1,69 @@
+[project]
+name = "openapi-httpx"
+version = "0.1.0"
+description = "Generate a typed HTTPX client from an OpenAPI specification."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Tobias Lohse" }]
+requires-python = ">=3.11,<3.15"
+keywords = ["openapi", "httpx", "codegen", "client", "typed"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Code Generators",
+    "Typing :: Typed",
+]
+dependencies = [
+    "datamodel-code-generator >=0.35.0,<0.54",
+    "pydantic >=2.0,<3",
+]
+
+[project.scripts]
+openapi-httpx = "openapi_httpx.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/mrloh/openapi-httpx"
+Repository = "https://github.com/mrloh/openapi-httpx"
+Issues = "https://github.com/mrloh/openapi-httpx/issues"
+Changelog = "https://github.com/mrloh/openapi-httpx/blob/main/CHANGELOG.md"
+
+[tool.poetry]
+packages = [{ include = "openapi_httpx" }]
+include = [{ path = "openapi_httpx/py.typed", format = ["sdist", "wheel"] }]
+
+[tool.poetry.requires-plugins]
+poethepoet = { extras = ["poetry-plugin"], version = "^0.37.0" }
+
+[tool.poe]
+poetry_command = ""
+
+[tool.poe.tasks]
+test = "pytest"
+typecheck = "pyright"
+format = "ruff format ."
+lint = "ruff check ."
+
+[dependency-groups]
+dev = ["pytest ~=8.3", "pyright ~=1.1.399", "ruff ~=0.6"]
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+[tool.pyright]
+include = ["openapi_httpx"]
+pythonVersion = "3.11"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

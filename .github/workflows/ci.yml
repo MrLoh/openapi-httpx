@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - name: 🚚 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🖋️ Install Poetry
+        run: pipx install poetry
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+
+      - name: 📦 Install dependencies
+        run: poetry install
+
+      - name: 🧼 Lint
+        run: poetry lint
+
+      - name: 🎨 Format check
+        run: poetry format --check
+
+      - name: 🔍 Type check
+        run: poetry typecheck
+
+      - name: 🧪 Test
+        run: poetry test
