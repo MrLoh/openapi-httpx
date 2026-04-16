@@ -1,7 +1,7 @@
 # OpenAPI HTTPX
 
-[![PyPI](https://img.shields.io/pypi/v/openapi-httpx?v=0.1.0)](https://pypi.org/project/openapi-httpx/)
-[![Python](https://img.shields.io/pypi/pyversions/openapi-httpx?v=0.1.0)](https://pypi.org/project/openapi-httpx/)
+[![PyPI](https://img.shields.io/pypi/v/openapi-httpx?v=0.1.2)](https://pypi.org/project/openapi-httpx/)
+[![Python](https://img.shields.io/pypi/pyversions/openapi-httpx?v=0.1.2)](https://pypi.org/project/openapi-httpx/)
 [![License](https://img.shields.io/pypi/l/openapi-httpx)](https://github.com/mrloh/openapi-httpx/blob/main/LICENSE)
 [![CI](https://github.com/mrloh/openapi-httpx/actions/workflows/ci.yml/badge.svg)](https://github.com/mrloh/openapi-httpx/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-online-526CFE?logo=materialformkdocs&logoColor=white)](https://mrloh.github.io/openapi-httpx/)
