@@ -71,3 +71,6 @@ def generate(source: str | Path | ParseResult, config: Config):
     result = parser.parse()
     assert isinstance(result, str)
     return result
+
+
+__all__ = ["Config", "PythonVersion", "generate"]
