@@ -31,7 +31,7 @@ openapi-httpx = "openapi_httpx.__main__:main"
 Homepage = "https://github.com/mrloh/openapi-httpx"
 Repository = "https://github.com/mrloh/openapi-httpx"
 Issues = "https://github.com/mrloh/openapi-httpx/issues"
-Changelog = "https://github.com/mrloh/openapi-httpx/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/mrloh/openapi-httpx/releases"
 
 [tool.poetry]
 packages = [{ include = "openapi_httpx" }]

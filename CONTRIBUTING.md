@@ -47,3 +47,14 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/):
 3. Run `poetry test` and `poetry typecheck` to verify
 4. Open a PR against `main`
 
+## Releasing
+
+Releases are automated via GitHub Actions. Pushing a tag matching `v*` triggers a build and publish to PyPI using [PyPA trusted publishing](https://docs.pypi.org/trusted-publishers/). No API tokens are needed — the GitHub Actions workflow authenticates via OIDC.
+
+To release:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+

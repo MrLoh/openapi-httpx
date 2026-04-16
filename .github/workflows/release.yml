@@ -1,0 +1,51 @@
+name: Release to PyPI
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    environment: pypi
+
+    steps:
+      - name: 🚚 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🖋️ Install Poetry
+        run: |
+          pipx install poetry
+          pipx install twine
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: poetry
+
+      - name: 🏷️ Set version from tag
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          poetry version "$version"
+
+      - name: 📦 Install dependencies
+        run: poetry install --only main
+
+      - name: 🔨 Build
+        run: |
+          poetry build
+          twine check dist/*
+
+      - name: 🚀 Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: 📝 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
